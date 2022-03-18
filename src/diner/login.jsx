@@ -14,6 +14,9 @@ import { MdKeyboardBackspace } from "react-icons/md";
 
 //features
 import axios from "../features/axios";
+import { subscribeUser } from "../subscription";
+
+//components
 import Logo from "../components/Logo";
 import two from "../images/two.png";
 
@@ -56,6 +59,7 @@ const Login = () => {
         } else {
           setTimeout(() => {
             sessionStorage.setItem("token", response.data.data);
+            subscribeUser("diner");
             router("/diner/explore");
           }, 2000);
           toast.success("Welcome back", {
