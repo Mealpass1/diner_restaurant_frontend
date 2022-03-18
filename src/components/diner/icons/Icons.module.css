@@ -1,0 +1,39 @@
+@media only screen and (max-width: 416px) {
+  .container {
+    width: 20%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+  .container label {
+    font-size: 1.5em;
+  }
+  .container a {
+    text-decoration: none;
+    font-weight: 600;
+    color: #000;
+  }
+  .active {
+    width: 20%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+  .active label {
+    color: var(--bright);
+    font-size: 1.5em;
+  }
+  .active a {
+    color: var(--bright);
+    text-decoration: none;
+    font-weight: 600;
+  }
+}
