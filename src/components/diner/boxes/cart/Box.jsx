@@ -150,6 +150,7 @@ const Box = (props) => {
 const Container = styled.div`
   width: 95%;
   height: auto;
+  margin: 0 0 10px 0;
 
   .container {
     width: 100%;
