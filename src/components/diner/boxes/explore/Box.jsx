@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router";
 
 const Box = ({ basket }) => {
+  const navigate = useNavigate();
+
   const variants = {
     initial: {
       y: 20,
@@ -19,6 +22,10 @@ const Box = ({ basket }) => {
     },
   };
 
+  const goToBasket = () => {
+    navigate(`/diner/explore/${basket?._id}`);
+  };
+
   return (
     <Container>
       <motion.div className="container">
@@ -28,7 +35,7 @@ const Box = ({ basket }) => {
           </div>
           <div className="para">
             <p className="bold">{basket?.name} Meal Package</p>
-            <p>{basket?.price}RWF /month</p>
+            <p>{basket?.price}RWF / month</p>
           </div>
         </div>
         <div className="contains">
@@ -48,7 +55,7 @@ const Box = ({ basket }) => {
             </li>
           </ul>
         </div>
-        <button>View More</button>
+        <button onClick={goToBasket}>View More</button>
       </motion.div>
     </Container>
   );
