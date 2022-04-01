@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import styled from "styled-components";
+import { useNavigate } from "react-router";
 
 //icons
 import { IoBagCheckOutline } from "react-icons/io5";
 
 //features
 import axios from "../../features/axios";
-import { add, getTotal, getFee, remove } from "../../state/Reducers/Diner/Cart";
+import { add, getTotal, getFee } from "../../state/Reducers/Diner/Cart";
 
 //components
 import Top from "../../components/diner/top/Cart";
@@ -18,12 +19,12 @@ import Container from "../../components/diner/boxes/cart/Container";
 import Success from "../../components/diner/portals/Cart";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [token, setToken] = useState("");
   const [show, setShow] = useState(false);
   const total = useSelector((state) => state.diner.cart.total) || 0;
   const fee = useSelector((state) => state.diner.cart.fee) || 0;
-  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -41,39 +42,40 @@ const Cart = () => {
   const all = useSelector((state) => state.diner.cart.cart);
 
   const checkout = () => {
-    setLoading(true);
-    const array = [];
-    for (let item of all) {
-      array.push({
-        cart: item._id,
-        dish: item.dish._id,
-        restaurant: item.restaurant._id,
-      });
-    }
-    axios
-      .post(
-        "/order/add",
-        { array: array },
-        {
-          headers: {
-            auth: `${token}`,
-          },
-        }
-      )
-      .then((response) => {
-        setLoading(false);
-        console.log(response);
-        if (response.data.status === "error") {
-          toast.error(response.data.message, {
-            toastId: "customId",
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 3000,
-          });
-        } else {
-          setShow(true);
-          dispatch(remove());
-        }
-      });
+    // setLoading(true);
+    // const array = [];
+    // for (let item of all) {
+    //   array.push({
+    //     cart: item._id,
+    //     dish: item.dish._id,
+    //     restaurant: item.restaurant._id,
+    //   });
+    // }
+    // axios
+    //   .post(
+    //     "/order/add",
+    //     { array: array },
+    //     {
+    //       headers: {
+    //         auth: `${token}`,
+    //       },
+    //     }
+    //   )
+    //   .then((response) => {
+    //     setLoading(false);
+    //     console.log(response);
+    //     if (response.data.status === "error") {
+    //       toast.error(response.data.message, {
+    //         toastId: "customId",
+    //         position: toast.POSITION.TOP_CENTER,
+    //         autoClose: 3000,
+    //       });
+    //     } else {
+    //       setShow(true);
+    //       dispatch(remove());
+    //     }
+    //   });
+    navigate("/diner/cart/payment");
   };
 
   const handleDelete = async (id) => {
@@ -111,29 +113,15 @@ const Cart = () => {
             <table>
               <tbody>
                 <tr>
-                  <td>Meal Cost</td>
-                  <td>{total} RWf</td>
-                </tr>
-                <tr>
-                  <td>Service Fee</td>
-                  <td>{fee} RWF</td>
-                </tr>
-                <tr>
-                  <th>Total</th>
-                  <th>{total + fee} RWF</th>
+                  <td>Total Meal Cost</td>
+                  <td className="money">{total} RWf</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div className="checkout" onClick={checkout}>
-            {loading ? (
-              <img src="/loader.svg" alt="loader" />
-            ) : (
-              <>
-                <IoBagCheckOutline />
-                <p>proceed to checkout</p>
-              </>
-            )}
+            <IoBagCheckOutline />
+            <p>proceed to Payment</p>
           </div>
         </div>
       </Content>
@@ -166,6 +154,15 @@ const Content = styled.div`
         tbody tr td,
         th {
           text-align: start;
+        }
+
+        td.money {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 3px 10px;
+          border-radius: 20px;
+          background: var(--opacity);
         }
       }
     }

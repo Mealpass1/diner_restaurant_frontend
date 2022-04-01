@@ -29,6 +29,7 @@ import Account from "./diner/account";
 import Settings from "./diner/settings";
 import Basket from "./diner/explore/package";
 import Width from "./width";
+import Payment from "./diner/cart/payment";
 
 function App() {
   const [width, setWidth] = useState("");
@@ -58,6 +59,7 @@ function App() {
           <Route exact path="/diner/recipes" element={<Recipes />} />
           <Route exact path="/diner/cart" element={<Cart />} />
           <Route exact path="/diner/cart/:product" element={<CProduct />} />
+          <Route exact path="/diner/cart/payment" element={<Payment />} />
           <Route exact path="/diner/menu" element={<Menu />} />
           <Route exact path="/diner/messages" element={<Messages />} />
           <Route exact path="/diner/account" element={<Account />} />
