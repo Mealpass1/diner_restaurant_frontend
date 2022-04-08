@@ -12,6 +12,9 @@ const Add = ({ close }) => {
     ...useSelector((state) => state.restaurant.restaurant.restaurant.dishTypes),
   ]);
   const [addedcategory, setCategory] = useState("");
+  const [toppings, addTopping] = useState([]);
+  const [price, setPrice] = useState("");
+  const [name, setName] = useState("");
   const [file, setFile] = useState({});
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState("");
@@ -24,6 +27,18 @@ const Add = ({ close }) => {
 
   const addCategory = () => {
     setCategories([...categories, addedcategory]);
+  };
+
+  const handleTopping = () => {
+    addTopping([...toppings, { name, price }]);
+    setName("");
+    setPrice("");
+  };
+  const handlePrice = (e) => {
+    setPrice(e.target.value);
+  };
+  const handleName = (e) => {
+    setName(e.target.value);
   };
 
   const handleFile = (e) => {
@@ -55,6 +70,7 @@ const Add = ({ close }) => {
     formData.append("description", data.description);
     formData.append("discount", data.discount || 0);
     formData.append("category", data.category);
+    formData.append("toppings", toppings);
 
     await axios
       .post("/dish/add", formData, {
@@ -189,6 +205,38 @@ const Add = ({ close }) => {
           </div>
           <input type="file" onChange={handleFile} />
         </div>
+        <div className="toppings">
+          <div className="added">
+            {toppings.map((topping, index) => (
+              <div className="topping" key={index}>
+                <p>
+                  {topping?.name.length > 10
+                    ? `${topping?.name.substr(0, 10)}...`
+                    : topping?.name}
+                </p>
+                <span>{topping?.price} RWF</span>
+              </div>
+            ))}
+          </div>
+          <div className="add">
+            <input
+              type="text"
+              placeholder="Top-up Name"
+              value={name}
+              onChange={handleName}
+            />
+            <div className="price">
+              <input
+                type="text"
+                placeholder="Price"
+                value={price}
+                onChange={handlePrice}
+              />
+              <p>RWF</p>
+            </div>
+            <button onClick={handleTopping}>Add</button>
+          </div>
+        </div>
         <button
           type="submit"
           className="btn"
@@ -264,13 +312,13 @@ const Container = styled.div`
 
     .form {
       width: 90%;
-      height: 180px;
+      height: 150px;
       margin: 20px 0 20px 0;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
 
       input {
-        height: 35px;
+        height: 30px;
         background: var(--grayish);
         border: none;
         outline: none;
@@ -279,7 +327,7 @@ const Container = styled.div`
       }
 
       textarea {
-        height: 80px;
+        height: 70px;
         background: var(--grayish);
         border: none;
         outline: none;
@@ -314,7 +362,7 @@ const Container = styled.div`
 
     .category {
       width: 90%;
-      height: 33px;
+      height: 30px;
       margin: 0 0 20px 0;
       display: flex;
       flex-direction: row;
@@ -368,7 +416,7 @@ const Container = styled.div`
 
     .images {
       width: 90%;
-      height: 200px;
+      height: 150px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -393,6 +441,85 @@ const Container = styled.div`
         width: 60%;
         height: 20%;
         border: none;
+      }
+    }
+
+    .toppings {
+      width: 90%;
+      height: 150px;
+      padding: 0 5px;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      background: var(--grayish);
+
+      .added {
+        width: 50%;
+        padding: 10px 0 0 5px;
+        height: 100%;
+        overflow: scroll;
+
+        .topping {
+          width: 90%;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          border: 1px solid dodgerblue;
+          border-radius: 4px;
+
+          span {
+            background: var(--bright);
+            padding: 2px 5px;
+            border-radius: 4px;
+          }
+        }
+      }
+
+      .add {
+        width: 45%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+
+        > input {
+          width: 100%;
+          height: 30px;
+          margin: 10px 0 0 0;
+          padding: 0 0 0 5px;
+          border: 1px solid dodgerblue;
+          border-radius: 4px;
+        }
+
+        .price {
+          width: 100%;
+          height: 30px;
+          margin: 10px 0;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+
+          > input {
+            width: 80%;
+            height: 100%;
+            padding: 0 0 0 5px;
+            border: 1px solid dodgerblue;
+            border-radius: 4px;
+          }
+        }
+
+        button {
+          width: 70%;
+          height: 25px;
+          border-radius: 50px;
+          border: none;
+          background: var(--bright);
+          color: var(--white);
+        }
       }
     }
 
