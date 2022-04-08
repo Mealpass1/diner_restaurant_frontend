@@ -33,7 +33,6 @@ const Nav = ({ name }) => {
       .then((response) => {
         setData(response.data.data);
         dispatch(add(response.data.data));
-        console.log(response);
       });
   }, []);
 
