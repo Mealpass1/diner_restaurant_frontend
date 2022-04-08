@@ -70,6 +70,7 @@ const Add = ({ close }) => {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    console.log(toppings);
 
     const formData = new FormData();
     formData.append("picture", file.file);
@@ -89,6 +90,7 @@ const Add = ({ close }) => {
       })
       .then((response) => {
         setLoading(false);
+        console.log(response);
         if (response.data.status === "error") {
           toast.error("Try again...", {
             toastId: "customId",

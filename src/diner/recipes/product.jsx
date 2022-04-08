@@ -143,14 +143,10 @@ const Product = () => {
     axios
       .get(`/dish/${query.product}`, { headers: { auth: `${token}` } })
       .then((response) => {
-        if (response.data.status === "error") {
-          console.log(response.data.message);
-        } else {
+        if (response.data.status !== "error") {
           setData(response.data.data);
+          console.log(response.data.data);
         }
-      })
-      .catch((err) => {
-        console.log(err.message);
       });
   }, [query.product]);
 
@@ -185,8 +181,25 @@ const Product = () => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="line"></div>
+          <div className="toppings">
+            <p className="bolder">Additional Top-up</p>
+            <div className="real">
+              {data?.toppings?.map((topping) => (
+                <div className="topping">
+                  <input
+                    type="checkbox"
+                    name={topping.name}
+                    id={topping.name}
+                  />
+                  <p>{topping.name}</p>
+                  <p>{topping.price} RWF</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="line"></div>
           <div className="info">
-            <p className="bolder">More information</p>
+            <p className="bolder">Booking information</p>
             <div className="real">
               <div className="one">
                 <p className="bold">1. What time of meal?</p>
@@ -235,7 +248,7 @@ const Product = () => {
                   </div>
                 ))}
               </div>
-              <div className="four">
+              {/* <div className="four">
                 <p className="bold">4. How many repeat in a month?</p>
                 <select
                   name="time"
@@ -249,7 +262,7 @@ const Product = () => {
                   <option value="3">Over the next 3 weeks</option>
                   <option value="4">Over the next 4 weeks</option>
                 </select>
-              </div>
+              </div> */}
             </div>
           </div>
           <button type="submit" className="add">
@@ -366,7 +379,7 @@ const Content = styled.div`
   }
 
   .line {
-    width: 90%;
+    width: 95%;
     height: 1px;
     margin: 10px 0;
     background: var(--bright);
@@ -378,6 +391,20 @@ const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .toppings {
+    width: 100%;
+    height: auto;
+    padding: 0 10px 10px 10px;
+
+    .real {
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 20px;
+    }
   }
 
   .info {
