@@ -12,6 +12,7 @@ const Add = ({ close }) => {
     ...useSelector((state) => state.restaurant.restaurant.restaurant.dishTypes),
   ]);
   const [addedcategory, setCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("none");
   const [toppings, addTopping] = useState([]);
   const [price, setPrice] = useState("");
   const [name, setName] = useState("");
@@ -23,6 +24,11 @@ const Add = ({ close }) => {
 
   const handleCategory = (e) => {
     setCategory(e.target.value);
+    setSelectedCategory(e.target.value);
+  };
+
+  const selectCategory = (e) => {
+    setSelectedCategory(e.target.value);
   };
 
   const addCategory = () => {
@@ -30,9 +36,11 @@ const Add = ({ close }) => {
   };
 
   const handleTopping = () => {
-    addTopping([...toppings, { name, price }]);
-    setName("");
-    setPrice("");
+    if (name.length > 0 && price.length > 0) {
+      addTopping([...toppings, { name, price }]);
+      setName("");
+      setPrice("");
+    }
   };
   const handlePrice = (e) => {
     setPrice(e.target.value);
@@ -69,7 +77,7 @@ const Add = ({ close }) => {
     formData.append("price", data.price);
     formData.append("description", data.description);
     formData.append("discount", data.discount || 0);
-    formData.append("category", data.category);
+    formData.append("category", selectedCategory);
     formData.append("toppings", toppings);
 
     await axios
@@ -176,7 +184,8 @@ const Add = ({ close }) => {
                 <option
                   value={category}
                   key={index}
-                  selected={category === addedcategory}
+                  selected={category === selectedCategory}
+                  onClick={selectCategory}
                 >
                   {category}
                 </option>
@@ -234,7 +243,9 @@ const Add = ({ close }) => {
               />
               <p>RWF</p>
             </div>
-            <button onClick={handleTopping}>Add</button>
+            <button type="button" onClick={handleTopping}>
+              Add
+            </button>
           </div>
         </div>
         <button

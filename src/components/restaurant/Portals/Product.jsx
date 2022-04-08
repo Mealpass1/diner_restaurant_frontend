@@ -7,14 +7,9 @@ import styled from "styled-components";
 
 import axios from "../../../features/axios";
 
-const Details = ({ id, close }) => {
+const Details = ({ product, close }) => {
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(false);
-  const products = useSelector((state) =>
-    state.restaurant.products.products.filter((item) => item._id === id)
-  );
-
-  const product = products[0];
 
   const deleteDish = () => {
     setLoading(true);
@@ -78,7 +73,7 @@ const Details = ({ id, close }) => {
             </div>
             <div className="item">
               <p>Description:</p>
-              <p className="bold">{product?.description?.substr(0, 45)}...</p>
+              <p className="bold">{product?.description?.substr(0, 30)}...</p>
             </div>
           </div>
           <div className="detail">
@@ -176,6 +171,7 @@ const Container = styled.div`
     .image {
       width: 90%;
       height: 230px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
@@ -183,7 +179,6 @@ const Container = styled.div`
 
       img {
         width: 100%;
-        height: 80%;
       }
 
       .button {
