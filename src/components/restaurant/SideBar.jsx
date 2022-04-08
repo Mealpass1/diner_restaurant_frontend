@@ -103,14 +103,14 @@ const SideBar = ({ openBar }) => {
             onClick={handleRequest}
           >
             <FaImage />
-            <p>Meal Request</p>
+            <p>Meal Requests</p>
           </div>
           <div
             className={active === "/restaurant/products" ? `active` : `item`}
             onClick={handleProduct}
           >
             <FiCodesandbox />
-            <p>Product</p>
+            <p>Products</p>
           </div>
           <div
             className={active === "/restaurant/orders" ? `active` : `item`}
