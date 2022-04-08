@@ -66,7 +66,7 @@ const Restaurant = () => {
           ))}
         </div>
       </Nav>
-      <Container active={active} />
+      <Container active={active} restaurant={query.restaurant} />
     </Layout>
   );
 };
