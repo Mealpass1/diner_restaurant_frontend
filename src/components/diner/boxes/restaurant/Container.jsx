@@ -1,25 +1,31 @@
 import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useQuery } from "react-query";
+
+import axios from "../../../../features/axios";
 
 import Box from "./Box";
 
-const Container = ({ active }) => {
-  const restaurant = useSelector((state) => state.diner.restaurant.restaurant);
+const Container = ({ active, restaurant }) => {
+  const { isLoading, data } = useQuery(`dishes`, async () => {
+    return await axios
+      .get(`/dish/restaurant/${restaurant}`)
+      .then((res) => res.data);
+  });
 
-  if (restaurant?.dishes?.length > 0) {
+  if (data?.data?.length > 0) {
     return (
       <Content>
         <div className="products">
           {active == "all" ? (
             <React.Fragment>
-              {restaurant?.dishes?.map((product, index) => (
+              {data?.data?.map((product, index) => (
                 <Box product={product} key={index} />
               ))}
             </React.Fragment>
           ) : (
             <React.Fragment>
-              {restaurant?.dishes?.map((product, index) => (
+              {data?.data?.map((product, index) => (
                 <React.Fragment key={index}>
                   {product.category == active ? (
                     <Box product={product} key={index} />
