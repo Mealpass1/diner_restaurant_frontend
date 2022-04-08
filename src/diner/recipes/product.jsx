@@ -89,6 +89,7 @@ const Product = () => {
           }
         )
         .then((response) => {
+          setLoading(false);
           if (response.data.status === "error") {
             toast.error(response.data.message, {
               toastId: "customId",
@@ -96,7 +97,6 @@ const Product = () => {
               autoClose: 2000,
             });
           } else {
-            setLoading(false);
             setAdded(true);
             toast.success("Product added to cart", {
               toastId: "customId",
