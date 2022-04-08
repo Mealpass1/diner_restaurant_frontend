@@ -1,18 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import styled from "styled-components";
+import { useQuery } from "react-query";
 
 import { AiOutlineRight } from "react-icons/ai";
+
+import axios from "../../../../features/axios";
 
 import Box from "./Box";
 
 const Container = ({ restaurant }) => {
   const push = useNavigate();
   const { pathname } = useLocation();
+  const [token, setToken] = useState("");
 
   const goToRestaurant = () => {
     push(`${pathname}/${restaurant._id}`);
   };
+
+  const { isLoading, data } = useQuery(
+    `${restaurant.businessName}_dishes`,
+    async () => {
+      return await axios
+        .get(`/dish/restaurant/${restaurant._id}`)
+        .then((res) => res.data);
+    }
+  );
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    setToken(token);
+  }, []);
 
   return (
     <Content>
@@ -23,15 +41,15 @@ const Container = ({ restaurant }) => {
         </p>
       </div>
       <div className="container">
-        <div className="scroll">
-          {restaurant.dishes.length > 0 ? (
-            restaurant.dishes.map((product, index) => (
+        {data?.data?.length > 0 ? (
+          <div className="scroll">
+            {data?.data?.map((product, index) => (
               <Box product={product} restaurant={restaurant._id} key={index} />
-            ))
-          ) : (
-            <p className="no_dishes">No dishes yet</p>
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p className="no_dishes">No dishes yet</p>
+        )}
       </div>
     </Content>
   );
@@ -43,7 +61,7 @@ const Content = styled.section`
 
   .container {
     width: auto;
-    height: 180px;
+    height: auto;
     margin: 10px 0 0 5px;
     display: flex;
     flex-direction: column;
