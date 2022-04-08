@@ -12,7 +12,7 @@ const Box = ({ product }) => {
 
   return (
     <Container>
-      {show == true ? <Details id={product._id} close={showDetails} /> : <></>}
+      {show == true ? <Details product={product} close={showDetails} /> : <></>}
       <div className="top">
         <div className="select"></div>
         <div className="image">
