@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import jwt_decode from "jwt-decode";
+import { useQuery } from "react-query";
 
 //features
 import axios from "../features/axios";
-import { add } from "../state/Reducers/Restaurant/Products";
 
 //components
 import Box from "../components/restaurant/Boxes/Product";
@@ -14,21 +15,22 @@ import Add from "../components/restaurant/Portals/Add";
 
 const Products = () => {
   const dispatch = useDispatch();
+  const [id, setId] = useState("");
   const [show, setShow] = useState(false);
-  const [data, setData] = useState([]);
 
   const showAdd = () => {
     setShow(!show);
   };
 
+  const { isLoading, data } = useQuery(`dishes`, async () => {
+    return await axios.get(`/dish/restaurant/${id}`).then((res) => res.data);
+  });
+
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-
-    axios.get("/dish", { headers: { auth: `${token}` } }).then((res) => {
-      setData(res.data.data);
-      dispatch(add(res.data.data));
-    });
-  }, [dispatch]);
+    var { id } = jwt_decode(token);
+    setId(id);
+  }, []);
 
   return (
     <Container>
@@ -39,10 +41,12 @@ const Products = () => {
         <button onClick={showAdd}>Add+</button>
       </div>
       <div className="content">
-        {data?.length === 0 ? (
+        {data?.data?.length === 0 ? (
           <p>Click Add+ to add a new product</p>
         ) : (
-          data?.map((product, index) => <Box key={index} product={product} />)
+          data?.data?.map((product, index) => (
+            <Box key={index} product={product} />
+          ))
         )}
       </div>
     </Container>
