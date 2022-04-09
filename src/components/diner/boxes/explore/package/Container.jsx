@@ -12,8 +12,8 @@ const Container = ({ restaurant, dishes }) => {
       </div>
       <div className="container">
         <div className="scroll">
-          {products?.map((product) => (
-            <Box dish={product} />
+          {products?.map((product, index) => (
+            <Box dish={product} key={index} />
           ))}
         </div>
       </div>
