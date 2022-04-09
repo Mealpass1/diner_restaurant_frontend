@@ -70,24 +70,25 @@ const Add = ({ close }) => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    console.log(toppings);
-
-    const formData = new FormData();
-    formData.append("picture", file.file);
-    formData.append("name", data.name);
-    formData.append("price", data.price);
-    formData.append("description", data.description);
-    formData.append("discount", data.discount || 0);
-    formData.append("category", selectedCategory);
-    formData.append("toppings", toppings);
 
     await axios
-      .post("/dish/add", formData, {
-        headers: {
-          auth: `${token}`,
-          "Content-Type": "multipart/form-data",
+      .post(
+        "/dish/add",
+        {
+          picture: file.file,
+          name: data.name,
+          price: data.price,
+          description: data.description,
+          discount: data.discount || 0,
+          category: selectedCategory,
+          toppings: toppings,
         },
-      })
+        {
+          headers: {
+            auth: `${token}`,
+          },
+        }
+      )
       .then((response) => {
         setLoading(false);
         console.log(response);
@@ -221,8 +222,8 @@ const Add = ({ close }) => {
             {toppings.map((topping, index) => (
               <div className="topping" key={index}>
                 <p>
-                  {topping?.name.length > 10
-                    ? `${topping?.name.substr(0, 10)}...`
+                  {topping?.name.length > 8
+                    ? `${topping?.name.substr(0, 6)}...`
                     : topping?.name}
                 </p>
                 <span>{topping?.price} RWF</span>
