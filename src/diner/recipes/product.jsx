@@ -36,6 +36,10 @@ const Product = () => {
 
   const deliveryMode = [
     {
+      mode: "Home delivery = 2,520FRW (For the week)",
+      price: 0,
+    },
+    {
       mode: "Pickup from Restaurant",
       price: 0,
     },
@@ -145,7 +149,6 @@ const Product = () => {
       .then((response) => {
         if (response.data.status !== "error") {
           setData(response.data.data);
-          console.log(response.data.data);
         }
       });
   }, [query.product]);
@@ -170,12 +173,15 @@ const Product = () => {
           <p className="bolder">Decription</p>
           <p className="description_text">{data?.description}</p>
           <div className="amount">
-            <div className="plus" onClick={increaseAmount}>
-              <AiOutlinePlus />
-            </div>
-            <p>{amount}</p>
-            <div className="minus" onClick={decreaseAmount}>
-              <BiMinus />
+            <p>No. of Ppl/Qty</p>
+            <div>
+              <div className="plus" onClick={increaseAmount}>
+                <AiOutlinePlus />
+              </div>
+              <p>{amount}</p>
+              <div className="minus" onClick={decreaseAmount}>
+                <BiMinus />
+              </div>
             </div>
           </div>
         </div>
@@ -183,19 +189,25 @@ const Product = () => {
           <div className="line"></div>
           <div className="toppings">
             <p className="bolder">Additional Top-up</p>
-            <div className="real">
-              {data?.toppings?.map((topping) => (
-                <div className="topping">
-                  <input
-                    type="checkbox"
-                    name={topping.name}
-                    id={topping.name}
-                  />
-                  <p>{topping.name}</p>
-                  <p>{topping.price} RWF</p>
+            {data?.toppings?.length > 0 ? (
+              <>
+                <div className="real">
+                  {data?.toppings?.map((topping) => (
+                    <div className="topping">
+                      <input
+                        type="checkbox"
+                        name={topping.name}
+                        id={topping.name}
+                      />
+                      <p>{topping.name}</p>
+                      <p>{topping.price} RWF</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            ) : (
+              <p>No additional top-ups</p>
+            )}
           </div>
           <div className="line"></div>
           <div className="info">
@@ -292,6 +304,7 @@ const Product = () => {
 
 const Image = styled.div`
   width: 100%;
+  border-radius: 15px;
   height: auto;
   overflow: hidden;
 
@@ -354,15 +367,31 @@ const Content = styled.div`
     align-items: flex-start;
     justify-content: space-between;
 
+    > p {
+      width: 70%;
+    }
+
     .amount {
-      width: 80px;
-      height: 25px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-around;
+      width: 100px;
+      height: 50px;
       position: absolute;
       right: 10px;
+      text-align: center;
+
+      p {
+        line-height: 20px;
+      }
+
+      > div {
+        width: 80px;
+        height: 25px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        position: absolute;
+        right: 10px;
+      }
 
       .plus,
       .minus {
@@ -418,7 +447,22 @@ const Content = styled.div`
       padding: 10px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
+      grid-template-areas:
+        "one two"
+        "three three";
       grid-gap: 20px;
+
+      .one {
+        grid-area: one;
+      }
+
+      .two {
+        grid-area: two;
+      }
+
+      .three {
+        grid-area: three;
+      }
 
       select {
         width: 70px;
