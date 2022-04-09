@@ -53,6 +53,8 @@ const Container = styled.div`
   .box {
     min-width: 38%;
     height: 180px;
+    border-radius: 10px;
+    overflow: hidden;
     margin: 10px;
     display: flex;
     flex-direction: column;
@@ -62,9 +64,11 @@ const Container = styled.div`
     .image {
       width: 100%;
       height: 95%;
+      border-radius: 10px;
       overflow: hidden;
 
       img {
+        border-radius: 10px;
         width: 100%;
       }
     }
