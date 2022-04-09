@@ -113,7 +113,7 @@ const Container = styled.div`
     .select {
       width: 8%;
       height: 80%;
-      border: 2px solid var(--bright);
+      /* border: 2px solid var(--bright); */
     }
 
     .image {
