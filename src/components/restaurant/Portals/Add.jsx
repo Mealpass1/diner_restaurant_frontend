@@ -13,7 +13,7 @@ const Add = ({ close }) => {
   ]);
   const [addedcategory, setCategory] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("none");
-  const [toppings, addTopping] = useState([]);
+  const [toppings, addTopping] = useState([{ name: "none", price: 0 }]);
   const [price, setPrice] = useState("");
   const [name, setName] = useState("");
   const [file, setFile] = useState({});
@@ -70,25 +70,22 @@ const Add = ({ close }) => {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    const formData = new FormData();
+
+    formData.append("picture", file.file);
+    formData.append("name", data.name);
+    formData.append("price", data.price);
+    formData.append("description", data.description);
+    formData.append("discount", data.discount || 0);
+    formData.append("category", selectedCategory);
+    formData.append("toppings", JSON.stringify(toppings));
 
     await axios
-      .post(
-        "/dish/add",
-        {
-          picture: file.file,
-          name: data.name,
-          price: data.price,
-          description: data.description,
-          discount: data.discount || 0,
-          category: selectedCategory,
-          toppings: toppings,
+      .post("/dish/add", formData, {
+        headers: {
+          auth: `${token}`,
         },
-        {
-          headers: {
-            auth: `${token}`,
-          },
-        }
-      )
+      })
       .then((response) => {
         setLoading(false);
         console.log(response);
@@ -182,7 +179,7 @@ const Add = ({ close }) => {
               id="category"
               {...register("category", { required: true })}
             >
-              <option value="none">none</option>
+              {/* <option value="none">none</option> */}
               {categories.map((category, index) => (
                 <option
                   value={category}
@@ -239,7 +236,7 @@ const Add = ({ close }) => {
             />
             <div className="price">
               <input
-                type="text"
+                type="number"
                 placeholder="Price"
                 value={price}
                 onChange={handlePrice}
