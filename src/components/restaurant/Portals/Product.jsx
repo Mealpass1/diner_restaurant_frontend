@@ -52,7 +52,9 @@ const Details = ({ product, close }) => {
           </div>
         </div>
         <div className="image">
-          <img src={product?.image} alt={product?.name} />
+          <div className="img">
+            <img src={product?.image} alt={product?.name} />
+          </div>
           <div className="button">
             <button className="delete" onClick={deleteDish}>
               {loading ? <img src="/loader.svg" alt="loader" /> : <p>Delete</p>}
@@ -170,15 +172,23 @@ const Container = styled.div`
 
     .image {
       width: 90%;
-      height: 230px;
+      height: 270px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
       align-items: center;
 
-      img {
+      .img {
         width: 100%;
+        height: 250px;
+        border-radius: 10px;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          border-radius: 10px;
+        }
       }
 
       .button {

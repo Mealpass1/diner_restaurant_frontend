@@ -1,6 +1,5 @@
 //packages
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import jwt_decode from "jwt-decode";
 import { useQuery } from "react-query";
@@ -14,7 +13,6 @@ import Nav from "../components/restaurant/Nav";
 import Add from "../components/restaurant/Portals/Add";
 
 const Products = () => {
-  const dispatch = useDispatch();
   const [id, setId] = useState("");
   const [show, setShow] = useState(false);
 
@@ -22,7 +20,7 @@ const Products = () => {
     setShow(!show);
   };
 
-  const { isLoading, data } = useQuery(`dishes`, async () => {
+  const { data } = useQuery(`dishes`, async () => {
     return await axios.get(`/dish/restaurant/${id}`).then((res) => res.data);
   });
 

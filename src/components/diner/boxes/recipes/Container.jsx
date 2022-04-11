@@ -48,7 +48,7 @@ const Container = ({ restaurant }) => {
             ))}
           </div>
         ) : (
-          <p className="no_dishes">No dishes yet</p>
+          <p className="no_dishes">No dishes</p>
         )}
       </div>
     </Content>
