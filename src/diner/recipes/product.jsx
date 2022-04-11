@@ -434,6 +434,14 @@ const Content = styled.div`
       grid-template-columns: repeat(2, 1fr);
       grid-gap: 20px;
     }
+
+    .topping {
+      width: 70%;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
   }
 
   .info {
