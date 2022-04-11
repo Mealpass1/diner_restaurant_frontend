@@ -11,9 +11,9 @@ const Add = ({ close }) => {
   const [categories, setCategories] = useState([
     ...useSelector((state) => state.restaurant.restaurant.restaurant.dishTypes),
   ]);
-  const [addedcategory, setCategory] = useState("");
+  const [addedcategory, setCategory] = useState("none");
   const [selectedCategory, setSelectedCategory] = useState("none");
-  const [toppings, addTopping] = useState([{ name: "none", price: 0 }]);
+  const [toppings, addTopping] = useState([]);
   const [price, setPrice] = useState("");
   const [name, setName] = useState("");
   const [file, setFile] = useState({});

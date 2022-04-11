@@ -27,6 +27,11 @@ const Product = () => {
   const [loading, setLoading] = useState(false);
   const [added, setAdded] = useState(false);
   const [data, setData] = useState({});
+  const [checkedState, setCheckedState] = useState(
+    new Array(data?.toppings?.length).fill(false)
+  );
+  const [toppings, setToppings] = useState([]);
+  console.log(toppings);
 
   const price = data?.price;
 
@@ -48,6 +53,34 @@ const Product = () => {
       price: 0,
     },
   ];
+
+  const AddTopping = (position) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+
+    setCheckedState(updatedCheckedState);
+
+    const addedTopping = updatedCheckedState.reduce(
+      (arr, currentState, index) => {
+        if (updatedCheckedState[position] === true) {
+          arr.push(data?.toppings[index]);
+        }
+        return arr;
+      },
+      []
+    );
+
+    if (updatedCheckedState[position] === true) {
+      setToppings([...toppings, addedTopping[0]]);
+    } else {
+      const newToppings = toppings.filter((topping) => {
+        return topping != toppings[position];
+      });
+
+      setToppings(newToppings);
+    }
+  };
 
   const daysOfWeek = [
     "Monday",
@@ -192,14 +225,22 @@ const Product = () => {
             {data?.toppings?.length > 0 ? (
               <>
                 <div className="real">
-                  {data?.toppings?.map((topping) => (
-                    <div className="topping">
-                      <input
-                        type="checkbox"
-                        name={topping.name}
-                        id={topping.name}
-                      />
-                      <p>{topping.name}</p>
+                  {data?.toppings?.map((topping, index) => (
+                    <div className="topping" key={index}>
+                      <div>
+                        <input
+                          type="checkbox"
+                          name={topping.name}
+                          id={topping.name}
+                          checked={checkedState[index]}
+                          onChange={() => AddTopping(index)}
+                        />
+                        <p>
+                          {topping.name.length > 7
+                            ? `${topping.name.substr(0, 7)}...`
+                            : topping.name}
+                        </p>
+                      </div>
                       <p>{topping.price} RWF</p>
                     </div>
                   ))}
@@ -432,15 +473,26 @@ const Content = styled.div`
       height: auto;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      grid-gap: 20px;
+      grid-gap: 0 10px;
     }
 
     .topping {
-      width: 70%;
+      width: 90%;
       height: 30px;
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: space-between;
+
+      div {
+        display: flex;
+        width: 60%;
+        height: 100%;
+        align-items: center;
+
+        p {
+          margin: 0 5px;
+        }
+      }
     }
   }
 
