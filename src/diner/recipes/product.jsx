@@ -20,6 +20,7 @@ import Top from "../../components/diner/top/Product";
 
 const Product = () => {
   const query = useParams();
+  const modeRef = useRef();
   const [token, setToken] = useState("");
   const [amount, setAmount] = useState(0);
   const [days, setDays] = useState([]);
@@ -27,17 +28,12 @@ const Product = () => {
   const [loading, setLoading] = useState(false);
   const [added, setAdded] = useState(false);
   const [data, setData] = useState({});
-  const [checkedState, setCheckedState] = useState(
-    new Array(data?.toppings?.length).fill(false)
-  );
   const [toppings, setToppings] = useState([]);
-  console.log(toppings);
-
-  const price = data?.price;
-
+  const [dishToppings, setDishToppings] = useState([]);
   const { register, handleSubmit } = useForm();
 
-  const modeRef = useRef();
+  const price = data?.price - (data?.price * data?.discount) / 100;
+  console.log(price);
 
   const deliveryMode = [
     {
@@ -55,30 +51,13 @@ const Product = () => {
   ];
 
   const AddTopping = (position) => {
-    const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item
-    );
-
-    setCheckedState(updatedCheckedState);
-
-    const addedTopping = updatedCheckedState.reduce(
-      (arr, currentState, index) => {
-        if (updatedCheckedState[position] === true) {
-          arr.push(data?.toppings[index]);
-        }
-        return arr;
-      },
-      []
-    );
-
-    if (updatedCheckedState[position] === true) {
-      setToppings([...toppings, addedTopping[0]]);
+    if (!toppings.includes(dishToppings[position])) {
+      setToppings([...toppings, dishToppings[position]]);
     } else {
-      const newToppings = toppings.filter((topping) => {
-        return topping != toppings[position];
-      });
-
-      setToppings(newToppings);
+      const newToppings = toppings.filter(
+        (topping) => topping.name !== dishToppings[position].name
+      );
+      setToppings([...newToppings]);
     }
   };
 
@@ -95,7 +74,6 @@ const Product = () => {
   const onSubmit = (data) => {
     if (
       data.timeOfMeal === "none" ||
-      data.repeatsInMonth === "none" ||
       amount === 0 ||
       days.length === 0 ||
       mode === "none"
@@ -110,13 +88,13 @@ const Product = () => {
         .post(
           "/cart/add",
           {
+            dish: query.product,
+            restaurant: query.restaurant,
             quantity: amount,
             timeOfMeal: data.timeOfMeal,
             daysInWeek: days,
             deliveryMode: mode,
-            repeatesInMonth: data.repeatsInMonth,
-            restaurant: query.restaurant,
-            dish: query.product,
+            toppings: toppings,
             price: price,
           },
           {
@@ -182,6 +160,7 @@ const Product = () => {
       .then((response) => {
         if (response.data.status !== "error") {
           setData(response.data.data);
+          setDishToppings(response.data.data.toppings);
         }
       });
   }, [query.product]);
@@ -197,7 +176,7 @@ const Product = () => {
       <Content>
         <div className="title">
           <p>{data?.name}</p>
-          <p>{data?.price} RWF</p>
+          <p>{price} RWF</p>
         </div>
         <div className="announcement">
           <p>{data?.discount}%</p>
@@ -232,7 +211,6 @@ const Product = () => {
                           type="checkbox"
                           name={topping.name}
                           id={topping.name}
-                          checked={checkedState[index]}
                           onChange={() => AddTopping(index)}
                         />
                         <p>

@@ -108,11 +108,7 @@ const Box = (props) => {
           <div className="serving">
             <div className="para">
               <p>Meal Serving</p>
-              <p>
-                {props.item.repeatsInMonth == 1
-                  ? "For a month"
-                  : `For ${props.item.repeatsInMonth} months`}
-              </p>
+              <p>For a week</p>
             </div>
             <div className="amount">
               <div className="plus" onClick={increaseAmount}>
