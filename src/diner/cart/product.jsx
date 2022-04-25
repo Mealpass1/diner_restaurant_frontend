@@ -23,10 +23,11 @@ const CartItem = () => {
   const [updated, setUpdated] = useState(false);
   const [data, setData] = useState({});
 
-  const [time, setTime] = useState(data?.timeOfMeal);
-  const [days, setDays] = useState(data?.daysInWeek);
-  const [mode, setMode] = useState(data?.deliveryMode);
-  const [repeates, setRepeates] = useState(data?.repeatsInMonth);
+  const [time, setTime] = useState("");
+  const [days, setDays] = useState([]);
+  const [mode, setMode] = useState("");
+  const [mealServing, setMealServing] = useState(0);
+  const [toppings, setToppings] = useState(data?.toppings);
 
   const daysOfWeek = [
     "Monday",
@@ -37,6 +38,17 @@ const CartItem = () => {
     "Saturday",
     "Sunday",
   ];
+
+  const handleDay = (one) => {
+    if (days.includes(one)) {
+      const newDays = days.filter((day) => day !== one);
+      setDays(newDays);
+    } else {
+      setDays([...days, one]);
+    }
+  };
+
+  console.log(data);
 
   const deliveryMode = [
     {
@@ -61,26 +73,25 @@ const CartItem = () => {
     setTime(e.target.value);
   };
 
-  const onAddDay = () => {
-    console.log("add day");
+  const handleMode = (one) => {
+    setMode(one);
   };
 
-  const handleMode = (e) => {
-    setMode(e.target.value);
+  const handleTopping = (topping) => {
+    if (toppings.map((to) => to.name).includes(topping.name)) {
+      const newToppings = toppings.filter((top) => top.name !== topping.name);
+      setToppings(newToppings);
+    } else {
+      setToppings([...toppings, topping]);
+    }
   };
-
-  const handleRepeates = (e) => {
-    setRepeates(e.target.value);
-  };
-
-  const handleTopping = () => {};
 
   const increaseAmount = () => {
-    console.log("Increasing amount");
+    setMealServing(mealServing + 1);
   };
 
   const decreaseAmount = () => {
-    console.log("Decreasing amount");
+    setMealServing(mealServing - 1);
   };
 
   useEffect(() => {
@@ -90,10 +101,13 @@ const CartItem = () => {
       .get(`/cart/${query.product}`, { headers: { auth: `${token}` } })
       .then((response) => {
         setData(response.data.data);
+        setTime(response.data.data.timeOfMeal);
+        setDays([...response.data.data.daysInWeek]);
+        setMode(response.data.data.deliveryMode);
+        setToppings([...response.data.data.toppings]);
+        setMealServing(response.data.data.mealServing);
       });
   }, [query.product]);
-
-  console.log(data);
 
   return (
     <Layout>
@@ -119,7 +133,7 @@ const CartItem = () => {
                 <div className="plus" onClick={increaseAmount}>
                   <AiOutlinePlus />
                 </div>
-                <p>{data?.mealServing}</p>
+                <p>{mealServing}</p>
                 <div className="minus" onClick={decreaseAmount}>
                   <BiMinus />
                 </div>
@@ -139,9 +153,9 @@ const CartItem = () => {
                           type="checkbox"
                           name={topping.name}
                           id={topping.name}
-                          onChange={() => handleTopping(index)}
-                          checked={data?.toppings
-                            .map((top) => top.name)
+                          onChange={() => handleTopping(topping)}
+                          checked={toppings
+                            ?.map((top) => top.name)
                             .includes(topping.name)}
                         />
                         <p>
@@ -168,19 +182,19 @@ const CartItem = () => {
                 <select name="time" onChange={handleTime}>
                   <option
                     value="breakfast"
-                    selected={data?.timeOfMeal === "breakfast" ? true : false}
+                    selected={time === "breakfast" ? true : false}
                   >
                     breakfast
                   </option>
                   <option
                     value="lunch"
-                    selected={data?.timeOfMeal === "lunch" ? true : false}
+                    selected={time === "lunch" ? true : false}
                   >
                     Lunch
                   </option>
                   <option
                     value="dinner"
-                    selected={data?.timeOfMeal === "dinner" ? true : false}
+                    selected={time === "dinner" ? true : false}
                   >
                     Dinner
                   </option>
@@ -189,7 +203,7 @@ const CartItem = () => {
               <div className="two">
                 <p className="bold">2. which days in a week?</p>
                 <div className="days">
-                  {data?.daysInWeek?.map((one, index) => (
+                  {daysOfWeek?.map((one, index) => (
                     <div className="row" key={index}>
                       <div className="day">
                         <input
@@ -197,20 +211,12 @@ const CartItem = () => {
                           name={one}
                           id={one}
                           value={one}
-                          onChange={onAddDay}
-                          checked={true}
+                          checked={days.includes(one)}
+                          onChange={() => handleDay(one)}
                         />
-                        <label htmlFor={one}>{one}</label>
-                      </div>
-                      <div className="change">
-                        <select name="days" id="days">
-                          <option value="noen">change</option>
-                          {daysOfWeek.map((day, index) => (
-                            <option value={day} key={index}>
-                              {day}
-                            </option>
-                          ))}
-                        </select>
+                        <label htmlFor={one}>
+                          {one.length > 8 ? `${one.substr(0, 6)}...` : one}
+                        </label>
                       </div>
                     </div>
                   ))}
@@ -225,8 +231,8 @@ const CartItem = () => {
                       name="mode"
                       id={one.mode}
                       value={one.mode}
-                      onChange={handleMode}
-                      checked={data?.deliveryMode === one.mode ? true : false}
+                      onChange={() => handleMode(one.mode)}
+                      checked={mode === one.mode ? true : false}
                     />
                     <label htmlFor={one.mode}>{one.mode}</label>
                   </div>
@@ -451,19 +457,21 @@ const Container = styled.form`
           border-radius: 5px;
         }
 
-        .two .days {
-          width: 100%;
-          height: auto;
-          display: flex;
-          flex-direction: column;
-
-          .row {
+        .two {
+          .days {
             width: 100%;
-            height: 20px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
+            height: auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+
+            .day {
+              width: 21vw;
+              height: 20px;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: flex-start;
+            }
           }
         }
       }
