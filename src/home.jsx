@@ -37,7 +37,7 @@ const Home = () => {
 };
 
 const Container = styled.div`
-  @media only screen and (max-width: 416px) {
+  @media only screen and (max-width: 600px) {
     width: 100vw;
     height: 100vh;
     display: flex;

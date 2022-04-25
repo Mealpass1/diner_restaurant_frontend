@@ -23,7 +23,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media only screen and (max-width: 416px) {
+@media only screen and (max-width: 600px) {
   body {
     font-size: 12px;
   }

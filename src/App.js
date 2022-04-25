@@ -38,7 +38,7 @@ function App() {
     setWidth(window.innerWidth);
   });
 
-  if (width > 416) {
+  if (width > 600) {
     return <Width />;
   } else {
     return (

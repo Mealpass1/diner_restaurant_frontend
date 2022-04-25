@@ -218,7 +218,7 @@ const Signup = () => {
 };
 
 const Container = styled.div`
-  @media only screen and (max-width: 416px) {
+  @media only screen and (max-width: 600px) {
     width: 100vw;
     height: auto;
     display: flex;
