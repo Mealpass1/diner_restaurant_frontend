@@ -33,7 +33,6 @@ const Product = () => {
   const { register, handleSubmit } = useForm();
 
   const price = data?.price - (data?.price * data?.discount) / 100;
-  console.log(price);
 
   const deliveryMode = [
     {
@@ -258,7 +257,9 @@ const Product = () => {
                         value={day}
                         onChange={onAddDay}
                       />
-                      <label htmlFor={day}>{day}</label>
+                      <label htmlFor={day}>
+                        {day.length > 8 ? `${day.substr(0, 6)}...` : day}
+                      </label>
                     </div>
                   ))}
                 </div>
@@ -272,7 +273,7 @@ const Product = () => {
                       name="mode"
                       id={mode.mode}
                       value={mode.mode}
-                      onChange={handleMode}
+                      onChange={() => handleMode()}
                       ref={modeRef}
                     />
                     <label htmlFor={mode.mode}>{mode.mode}</label>
