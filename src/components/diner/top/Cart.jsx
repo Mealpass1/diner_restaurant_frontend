@@ -38,8 +38,7 @@ const Top = ({ items }) => {
         <div className="three">
           <p>
             <span>Note: </span>
-            Meal Serving = Your Order Quantity x Your Days per week x Repeat
-            Weeks per month
+            Meal Serving = Your Order Quantity x Your Days per week
           </p>
         </div>
       </div>
@@ -110,10 +109,11 @@ const Container = styled.div`
     .three {
       grid-area: three;
       text-align: center;
-      padding: 0 10px;
+      padding: 0 5px;
       border-bottom: 1px solid black;
 
       p {
+        font-size: 0.9em;
         span {
           color: var(--bright);
           font-weight: bold;

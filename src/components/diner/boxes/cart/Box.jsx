@@ -95,14 +95,21 @@ const Box = (props) => {
         animate="visible"
         exit={{ x: -100, opacity: 0, transition: { duration: 1.5 } }}
       >
-        <div className="image">
-          <img src={props.item?.dish?.image} alt={props.item?.dish?.name} />
+        <div className="left">
+          <div className="image">
+            <img src={props.item?.dish?.image} alt={props.item?.dish?.name} />
+          </div>
+          <p>
+            <span>From: </span>
+            {props?.item?.restaurant?.businessName}
+          </p>
         </div>
         <div className="about">
           <div className="title">
             <p>{props.item.dish.name}</p>
             <div className="p1">
               <p>{props.item.dish.price} RWF</p>
+              <p className="discount">({props?.item?.dish?.discount}%Off)</p>
             </div>
           </div>
           <div className="serving">
@@ -161,13 +168,32 @@ const Container = styled.div`
     justify-content: space-between;
     font-size: 12px;
 
-    .image {
-      width: 80px;
-      height: 80px;
-      overflow: hidden;
+    .left {
+      width: 30%;
+      height: 90%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-around;
 
-      img {
-        width: 100%;
+      .image {
+        width: 90%;
+        height: 80px;
+        border-radius: 5px;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          border-radius: 5px;
+        }
+      }
+
+      p {
+        font-size: 0.9em;
+        width: 90%;
+        span {
+          font-weight: 700;
+        }
       }
     }
 
