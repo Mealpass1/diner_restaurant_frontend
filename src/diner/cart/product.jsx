@@ -48,8 +48,6 @@ const CartItem = () => {
     }
   };
 
-  console.log(data);
-
   const deliveryMode = [
     {
       mode: "Home delivery = 2,520FRW (For the week)",
