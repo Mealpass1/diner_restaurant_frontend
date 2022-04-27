@@ -29,6 +29,8 @@ const Box = (props) => {
         }
       )
       .then((rresponse) => {
+        // window.location.reload(false);
+        props.reflesh();
         if (rresponse.data.status == "error") {
           toast.error("Unable to update", {
             toastId: "customId",

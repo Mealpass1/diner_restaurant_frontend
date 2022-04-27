@@ -10,7 +10,12 @@ const Container = (props) => {
   return (
     <Content>
       {cart?.map((item, index) => (
-        <Box item={item} key={index} delete={props.delete} />
+        <Box
+          item={item}
+          key={index}
+          delete={props.delete}
+          reflesh={props.reflesh}
+        />
       ))}
     </Content>
   );

@@ -26,6 +26,7 @@ const Cart = () => {
   const total = useSelector((state) => state.diner.cart.total) || 0;
   const fee = useSelector((state) => state.diner.cart.fee) || 0;
   const [data, setData] = useState([]);
+  const [reflesh, setReflesh] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -37,9 +38,13 @@ const Cart = () => {
       dispatch(getFee());
       setData(response.data.data);
     });
-  }, [dispatch]);
+  }, [dispatch, reflesh]);
 
   const all = useSelector((state) => state.diner.cart.cart);
+
+  const refleshCart = () => {
+    setReflesh(!reflesh);
+  };
 
   const checkout = () => {
     // setLoading(true);
@@ -82,6 +87,7 @@ const Cart = () => {
     axios
       .delete(`/cart/delete/${id}`, { headers: { auth: `${token}` } })
       .then((response) => {
+        refleshCart();
         if (response.data.status === "error") {
           toast.error("Unable to delete item", {
             toastId: "customId",
@@ -107,7 +113,7 @@ const Cart = () => {
       <Top items={data?.length} />
       {show === true ? <Success cancel={showAdd} /> : <></>}
       <Content>
-        <Container delete={handleDelete} />
+        <Container delete={handleDelete} reflesh={refleshCart} />
         <div className="summary">
           <div className="top">
             <table>

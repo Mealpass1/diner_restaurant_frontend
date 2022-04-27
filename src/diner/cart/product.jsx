@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
-import _ from "lodash";
+import { toast } from "react-toastify";
 
 //features
 import axios from "../../features/axios";
@@ -22,11 +22,11 @@ const CartItem = () => {
   const [loading, setLoading] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [data, setData] = useState({});
-
+  const [token, setToken] = useState("");
   const [time, setTime] = useState("");
   const [days, setDays] = useState([]);
   const [mode, setMode] = useState("");
-  const [mealServing, setMealServing] = useState(0);
+  const [amount, setAmount] = useState(0);
   const [toppings, setToppings] = useState(data?.toppings);
 
   const daysOfWeek = [
@@ -66,7 +66,36 @@ const CartItem = () => {
   ];
 
   const updateCart = () => {
-    console.log("update cart");
+    setLoading(true);
+    axios
+      .put(
+        `/cart/update/${data?._id}`,
+        {
+          amount: amount,
+          timeOfMeal: time,
+          daysInWeek: days,
+          deliveryMode: mode,
+          toppings: toppings,
+        },
+        { headers: { auth: `${token}` } }
+      )
+      .then((response) => {
+        setLoading(false);
+        if (response.data.status === "error") {
+          toast.error("Unable to update item", {
+            toastId: "customId",
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000,
+          });
+        } else {
+          setUpdated(true);
+          toast.success("Item updated", {
+            toastId: "customId",
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000,
+          });
+        }
+      });
   };
 
   const handleTime = (e) => {
@@ -87,15 +116,16 @@ const CartItem = () => {
   };
 
   const increaseAmount = () => {
-    setMealServing(mealServing + 1);
+    setAmount(amount + 1);
   };
 
   const decreaseAmount = () => {
-    setMealServing(mealServing - 1);
+    setAmount(amount - 1);
   };
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
+    setToken(token);
 
     axios
       .get(`/cart/${query.product}`, { headers: { auth: `${token}` } })
@@ -105,7 +135,7 @@ const CartItem = () => {
         setDays([...response.data.data.daysInWeek]);
         setMode(response.data.data.deliveryMode);
         setToppings([...response.data.data.toppings]);
-        setMealServing(response.data.data.mealServing);
+        setAmount(response.data.data.quantity);
       });
   }, [query.product]);
 
@@ -115,7 +145,7 @@ const CartItem = () => {
       <Image>
         <img src={data?.dish?.image} alt={data?.dish?.name} />
       </Image>
-      <Container onSubmit={updateCart}>
+      <Container>
         <div className="content">
           <div className="title">
             <p>{data?.dish?.name}</p>
@@ -133,7 +163,7 @@ const CartItem = () => {
                 <div className="plus" onClick={increaseAmount}>
                   <AiOutlinePlus />
                 </div>
-                <p>{mealServing}</p>
+                <p>{amount}</p>
                 <div className="minus" onClick={decreaseAmount}>
                   <BiMinus />
                 </div>
@@ -240,10 +270,7 @@ const CartItem = () => {
               </div>
             </div>
           </div>
-          <div
-            className={updated === true ? `added` : `add`}
-            onClick={updateCart}
-          >
+          <div className="add" onClick={updateCart}>
             {updated === true ? (
               <>
                 <MdOutlineDownloadDone />
