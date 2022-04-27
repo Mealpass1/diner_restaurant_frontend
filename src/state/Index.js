@@ -7,6 +7,7 @@ import restaurantRestaurantSlice from "./Reducers/Restaurant/Restaurant";
 import cartSlice from "./Reducers/Diner/Cart";
 import menuSlice from "./Reducers/Diner/Menu";
 import notificationSlice from "./Reducers/Diner/Notifications";
+import packageSlice from "./Reducers/Diner/Package";
 import productSlice from "./Reducers/Restaurant/Products";
 import requestSlice from "./Reducers/Restaurant/Requests";
 import orderSlice from "./Reducers/Restaurant/Orders";
@@ -17,6 +18,7 @@ const diner = combineReducers({
   menu: menuSlice,
   restaurant: dinerRestaurantSlice,
   notifications: notificationSlice,
+  package: packageSlice,
 });
 
 const restaurant = combineReducers({

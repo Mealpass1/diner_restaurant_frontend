@@ -1,13 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 import { motion } from "framer-motion";
 
 const Box = ({ dish }) => {
   const router = useNavigate();
+  const location = useLocation();
 
-  const goToProduct = () => {};
+  const goToProduct = () => {
+    router(`${location.pathname}/${dish.dish._id}`);
+  };
 
   const variants = {
     initial: {

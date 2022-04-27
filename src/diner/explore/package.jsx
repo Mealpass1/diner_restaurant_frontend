@@ -1,22 +1,26 @@
 import React from "react";
 import styled from "styled-components";
 import { useQuery } from "react-query";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 
 import { IoArrowBackOutline } from "react-icons/io5";
 
 import axios from "../../features/axios";
 import Layout from "../../components/diner/Layout";
+import { add } from "../../state/Reducers/Diner/Package";
 import Container from "../../components/diner/boxes/explore/package/Container";
 
 const Basket = () => {
   const location = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { isLoading, data } = useQuery("package", async () => {
-    return await axios
-      .get(`/package/${location.package}`)
-      .then((response) => response.data.data);
+    return await axios.get(`/package/${location.package}`).then((response) => {
+      dispatch(add(response.data.data.dishes));
+      return response.data.data;
+    });
   });
 
   const goBack = () => {
@@ -35,6 +39,9 @@ const Basket = () => {
           </div>
           <p>{data?.name} Meal Package</p>
           <p className="price">{data?.price}RWF / month</p>
+        </div>
+        <div className="add">
+          <p>Add to cart</p>
         </div>
         <div className="container">
           {data?.restaurants?.map((restaurant, index) => (
@@ -93,6 +100,18 @@ const Content = styled.div`
     p.price {
       font-weight: 700;
     }
+  }
+
+  .add {
+    width: 100px;
+    height: 30px;
+    margin: auto;
+    border-radius: 3px;
+    background: var(--bright);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
