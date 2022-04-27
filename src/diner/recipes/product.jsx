@@ -135,7 +135,7 @@ const Product = () => {
   };
 
   const handleMode = (e) => {
-    setMode(modeRef.current.value);
+    setMode(e.target.value);
   };
 
   const onAddDay = (e) => {
@@ -273,7 +273,7 @@ const Product = () => {
                       name="mode"
                       id={mode.mode}
                       value={mode.mode}
-                      onChange={() => handleMode()}
+                      onChange={(e) => handleMode(e)}
                       ref={modeRef}
                     />
                     <label htmlFor={mode.mode}>{mode.mode}</label>
