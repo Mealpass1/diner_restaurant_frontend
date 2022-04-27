@@ -28,6 +28,7 @@ import Messages from "./diner/messages/index";
 import Account from "./diner/account";
 import Settings from "./diner/settings";
 import Basket from "./diner/explore/package";
+import BasketProduct from "./diner/explore/product";
 import Width from "./width";
 import Payment from "./diner/cart/payment";
 
@@ -56,6 +57,11 @@ function App() {
           <Route exact path="/diner/signup" element={<DSignup />} />
           <Route exact path="/diner/explore" element={<Explore />} />
           <Route exact path="/diner/explore/:package" element={<Basket />} />
+          <Route
+            exact
+            path="/diner/explore/:package/:product"
+            element={<BasketProduct />}
+          />
           <Route exact path="/diner/recipes" element={<Recipes />} />
           <Route exact path="/diner/cart" element={<Cart />} />
           <Route exact path="/diner/cart/:product" element={<CProduct />} />
