@@ -47,39 +47,6 @@ const Cart = () => {
   };
 
   const checkout = () => {
-    // setLoading(true);
-    // const array = [];
-    // for (let item of all) {
-    //   array.push({
-    //     cart: item._id,
-    //     dish: item.dish._id,
-    //     restaurant: item.restaurant._id,
-    //   });
-    // }
-    // axios
-    //   .post(
-    //     "/order/add",
-    //     { array: array },
-    //     {
-    //       headers: {
-    //         auth: `${token}`,
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     setLoading(false);
-    //     console.log(response);
-    //     if (response.data.status === "error") {
-    //       toast.error(response.data.message, {
-    //         toastId: "customId",
-    //         position: toast.POSITION.TOP_CENTER,
-    //         autoClose: 3000,
-    //       });
-    //     } else {
-    //       setShow(true);
-    //       dispatch(remove());
-    //     }
-    //   });
     navigate("/diner/cart/payment");
   };
 
