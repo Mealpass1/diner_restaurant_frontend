@@ -11,6 +11,11 @@ const Payment = () => {
         <div className="top">
           <Top />
         </div>
+        <div className="stats">
+          <div className="header">
+            <div className="title"></div>
+          </div>
+        </div>
       </Container>
     </Layout>
   );
