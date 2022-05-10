@@ -10,12 +10,14 @@ import Layout from "../../components/diner/Layout";
 import Container from "../../components/diner/boxes/explore/package/Container";
 
 const Basket = () => {
-  const location = useParams();
+  const query = useParams();
   const navigate = useNavigate();
 
-  const { data } = useQuery(`package ${location.package}`, async () => {
-    return await axios.get(`/package/${location.package}`).then((response) => response.data.data);
+  const { data } = useQuery(`${query.package}`, async () => {
+    return await axios.get(`/package/${query.package}`).then((response) => response.data.data);
   });
+
+  console.log(query);
 
   const goBack = () => {
     navigate(-1);

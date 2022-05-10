@@ -22,10 +22,8 @@ const Box = ({ basket }) => {
     },
   };
 
-  console.log(basket);
-
   const goToBasket = () => {
-    navigate(`/diner/explore/${basket?._id}`);
+    navigate(`/diner/explore/${basket._id}`);
   };
 
   return (
@@ -65,6 +63,7 @@ const Box = ({ basket }) => {
 
 const Container = styled.div`
   width: 95%;
+  margin: 10px 0;
   height: auto;
 
   .container {

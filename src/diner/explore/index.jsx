@@ -10,7 +10,7 @@ import Top from "../../components/diner/top/Explore";
 import Box from "../../components/diner/boxes/explore/Box";
 
 const Explore = () => {
-  const { isLoading, data } = useQuery("packages", async () => {
+  const { data } = useQuery("packages", async () => {
     return await axios.get("/package").then((response) => response.data.data);
   });
 
