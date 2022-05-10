@@ -13,7 +13,7 @@ const Basket = () => {
   const location = useParams();
   const navigate = useNavigate();
 
-  const { data } = useQuery("package", async () => {
+  const { data } = useQuery(`package ${location.package}`, async () => {
     return await axios.get(`/package/${location.package}`).then((response) => response.data.data);
   });
 
