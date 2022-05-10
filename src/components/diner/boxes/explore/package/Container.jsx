@@ -1,18 +1,25 @@
 import React from "react";
 import styled from "styled-components";
+import { useQuery } from "react-query";
+
+import axios from "../../../../../features/axios"
+
 import Box from "./Box";
 
-const Container = ({ restaurant, dishes }) => {
-  const products = dishes.filter((dish) => dish.restaurant === restaurant.id);
+const Container = ({ packageId, restaurant }) => {
+
+  const { isLoading, data } = useQuery(`package items of ${restaurant._id}`, async () => {
+    return await axios.get(`/packageItems/${packageId}/${restaurant.id}`).then((response) => response.data.data);
+  });
 
   return (
     <Content>
       <div className="title">
-        <p>{restaurant.name}</p>
+        <p>{restaurant?.name}</p>
       </div>
       <div className="container">
         <div className="scroll">
-          {products?.map((product, index) => (
+          {data?.map((product, index) => (
             <Box dish={product} key={index} />
           ))}
         </div>

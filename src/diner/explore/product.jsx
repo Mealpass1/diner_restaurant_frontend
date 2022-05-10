@@ -1,7 +1,8 @@
 //packages
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import React from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
+import { useParams } from "react-router";
 
 //features
 import axios from "../../features/axios";
@@ -10,24 +11,23 @@ import axios from "../../features/axios";
 import Layout from "../../components/diner/Layout";
 import Top from "../../components/diner/top/Product";
 
-//icons
-import { useSelector } from "react-redux";
 
 const CartItem = () => {
   const query = useParams();
-  const dish = useSelector((state) =>
-    state.diner.package.dishes.filter((dish) => dish.dish._id === query.product)
-  );
 
-  const daysOfWeek = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
+  const { data } = useQuery("package", async () => {
+    return await axios.get(`/packageItems/${query.product}`).then((response) => response.data.data);
+  });
+
+  // const daysOfWeek = [
+  //   "Monday",
+  //   "Tuesday",
+  //   "Wednesday",
+  //   "Thursday",
+  //   "Friday",
+  //   "Saturday",
+  //   "Sunday",
+  // ];
 
   const deliveryMode = [
     {
@@ -44,26 +44,26 @@ const CartItem = () => {
     <Layout>
       <Top />
       <Image>
-        <img src={dish[0]?.dish?.image} alt={dish[0]?.dish?.name} />
+        <img src={data?.dish?.image} alt={data?.dish?.name} />
       </Image>
       <Container>
         <div className="content">
           <div className="description">
             <p className="bolder">Decription</p>
-            <p className="description_text">{dish[0]?.dish?.description}</p>
+            <p className="description_text">{data?.dish?.description}</p>
             <div className="amount">
               <p>
-                Total meal serving = <span>{dish[0]?.mealServing}</span>
+                Total meal serving = <span>{data?.mealServing}</span>
               </p>
             </div>
           </div>
           <div className="line"></div>
           <div className="toppings">
             <p className="bolder">Additional Top-up</p>
-            {dish[0]?.toppings?.length > 0 ? (
+            {data?.toppings?.length > 0 ? (
               <>
                 <div className="real">
-                  {dish[0]?.toppings?.map((topping, index) => (
+                  {data?.toppings?.map((topping, index) => (
                     <div className="topping" key={index}>
                       <div>
                         <input
@@ -97,20 +97,20 @@ const CartItem = () => {
                   <option
                     value="breakfast"
                     selected={
-                      dish[0]?.timeOfMeal === "breakfast" ? true : false
+                      data?.timeOfMeal === "breakfast" ? true : false
                     }
                   >
                     breakfast
                   </option>
                   <option
                     value="lunch"
-                    selected={dish[0]?.timeOfMeal === "lunch" ? true : false}
+                    selected={data?.timeOfMeal === "lunch" ? true : false}
                   >
                     Lunch
                   </option>
                   <option
                     value="dinner"
-                    selected={dish[0]?.timeOfMeal === "dinner" ? true : false}
+                    selected={data?.timeOfMeal === "dinner" ? true : false}
                   >
                     Dinner
                   </option>
@@ -119,7 +119,7 @@ const CartItem = () => {
               <div className="two">
                 <p className="bold">2. which days in a week?</p>
                 <div className="days">
-                  {dish[0]?.daysInWeek?.map((one, index) => (
+                  {data?.daysInWeek?.map((one, index) => (
                     <div className="row" key={index}>
                       <div className="day">
                         <input
@@ -147,7 +147,7 @@ const CartItem = () => {
                       id={one.mode}
                       value={one.mode}
                       checked={
-                        dish[0]?.deliveryMode === one.mode ? true : false
+                        data?.deliveryMode === one.mode ? true : false
                       }
                     />
                     <label htmlFor={one.mode}>{one.mode}</label>
@@ -166,6 +166,8 @@ const Image = styled.div`
   width: 100%;
   height: auto;
   margin-bottom: 10px;
+  border-radius: 20px;
+  overflow: hidden;
 
   img {
     width: 100%;

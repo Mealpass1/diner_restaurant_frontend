@@ -1,26 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import { useQuery } from "react-query";
-import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 
 import { IoArrowBackOutline } from "react-icons/io5";
 
 import axios from "../../features/axios";
 import Layout from "../../components/diner/Layout";
-import { add } from "../../state/Reducers/Diner/Package";
 import Container from "../../components/diner/boxes/explore/package/Container";
 
 const Basket = () => {
   const location = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const { isLoading, data } = useQuery("package", async () => {
-    return await axios.get(`/package/${location.package}`).then((response) => {
-      dispatch(add(response.data.data.dishes));
-      return response.data.data;
-    });
+  const { data } = useQuery("package", async () => {
+    return await axios.get(`/package/${location.package}`).then((response) => response.data.data);
   });
 
   const goBack = () => {
@@ -47,7 +41,7 @@ const Basket = () => {
           {data?.restaurants?.map((restaurant, index) => (
             <Container
               restaurant={restaurant}
-              dishes={data?.dishes}
+              packageId={data?._id}
               key={index}
             />
           ))}

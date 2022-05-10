@@ -22,6 +22,8 @@ const Box = ({ basket }) => {
     },
   };
 
+  console.log(basket);
+
   const goToBasket = () => {
     navigate(`/diner/explore/${basket?._id}`);
   };
@@ -50,7 +52,7 @@ const Box = ({ basket }) => {
               <p className="description">Restaurants to Eat From</p>
             </li>
             <li>
-              <p className="number">{basket?.dishes.length}</p>
+              <p className="number">{basket?.dishes}</p>
               <p className="description">Meal Menu</p>
             </li>
           </ul>

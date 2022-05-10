@@ -9,8 +9,9 @@ const Box = ({ dish }) => {
   const location = useLocation();
 
   const goToProduct = () => {
-    router(`${location.pathname}/${dish.dish._id}`);
+    router(`${location.pathname}/${dish._id}`);
   };
+
 
   const variants = {
     initial: {
