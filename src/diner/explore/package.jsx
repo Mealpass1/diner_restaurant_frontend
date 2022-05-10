@@ -17,8 +17,6 @@ const Basket = () => {
     return await axios.get(`/package/${query.package}`).then((response) => response.data.data);
   });
 
-  console.log(query);
-
   const goBack = () => {
     navigate(-1);
   };
