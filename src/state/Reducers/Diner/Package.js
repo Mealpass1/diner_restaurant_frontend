@@ -20,9 +20,9 @@ const packageSlice = createSlice({
     }
   },
 });
-
+s
 const addToCartApi = (dishes) => {
-
+  axios.post("/")
 }
 
 export const { add, removeDish, addToCart } = packageSlice.actions;
