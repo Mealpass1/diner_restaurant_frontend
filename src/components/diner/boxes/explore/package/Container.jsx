@@ -1,16 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { useQuery } from "react-query";
-
-import axios from "../../../../../features/axios"
+import { useSelector } from "react-redux";
 
 import Box from "./Box";
 
-const Container = ({ packageId, restaurant }) => {
-
-  const { isLoading, data } = useQuery(`package items of ${restaurant._id}`, async () => {
-    return await axios.get(`/packageItems/${packageId}/${restaurant.id}`).then((response) => response.data.data);
-  });
+const Container = ({ restaurant }) => {
+  const data = useSelector((state) => state.diner.package.dishes?.filter(d => d.restaurant === restaurant.id))
 
   return (
     <Content>
@@ -34,7 +29,7 @@ const Content = styled.section`
 
   .container {
     width: auto;
-    height: 180px;
+    height: 200px;
     margin: 10px 0 0 5px;
     display: flex;
     flex-direction: column;
@@ -52,7 +47,7 @@ const Content = styled.section`
 
     .scroll {
       width: auto;
-      height: 180px;
+      height: 200px;
       display: flex;
       flex-direction: row;
       align-items: center;

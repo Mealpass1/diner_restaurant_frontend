@@ -16,7 +16,7 @@ const CartItem = () => {
   const query = useParams();
 
   const { data } = useQuery("package", async () => {
-    return await axios.get(`/packageItems/${query.product}`).then((response) => response.data.data);
+    return await axios.get(`/packageItems/item/${query.product}`).then((response) => response.data.data);
   });
 
   // const daysOfWeek = [
@@ -93,27 +93,10 @@ const CartItem = () => {
             <div className="real">
               <div className="one">
                 <p className="bold">1. What time of meal?</p>
-                <select name="time">
-                  <option
-                    value="breakfast"
-                    selected={
-                      data?.timeOfMeal === "breakfast" ? true : false
-                    }
-                  >
-                    breakfast
-                  </option>
-                  <option
-                    value="lunch"
-                    selected={data?.timeOfMeal === "lunch" ? true : false}
-                  >
-                    Lunch
-                  </option>
-                  <option
-                    value="dinner"
-                    selected={data?.timeOfMeal === "dinner" ? true : false}
-                  >
-                    Dinner
-                  </option>
+                <select name="time" defaultValue={data?.timeOfMeal}>
+                  <option value="breakfast">breakfast</option>
+                  <option value="lunch">Lunch</option>
+                  <option value="dinner">Dinner</option>
                 </select>
               </div>
               <div className="two">
@@ -127,7 +110,8 @@ const CartItem = () => {
                           name={one}
                           id={one}
                           value={one}
-                          checked={true}
+                          // checked={true}
+                          defaultChecked={true}
                         />
                         <label htmlFor={one}>
                           {one.length > 8 ? `${one.substr(0, 6)}...` : one}

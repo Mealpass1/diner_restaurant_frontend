@@ -1,12 +1,16 @@
 import React from "react";
+import { motion } from "framer-motion";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 
-import { motion } from "framer-motion";
+import Cross from "./Cross";
+import { removeDish } from "../../../../../state/Reducers/Diner/Package"
 
 const Box = ({ dish }) => {
   const router = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const goToProduct = () => {
     router(`${location.pathname}/${dish._id}`);
@@ -29,8 +33,13 @@ const Box = ({ dish }) => {
     },
   };
 
+  const handleRemove = () => {
+    dispatch(removeDish(dish._id))
+  }
+
   return (
     <Container>
+      <Cross Clicked={handleRemove} />
       <motion.div
         className="box"
         onClick={goToProduct}
@@ -53,17 +62,20 @@ const Box = ({ dish }) => {
 const Container = styled.div`
   width: auto;
   height: auto;
+  position: relative;
 
   .box {
     width: 180px;
     height: 180px;
     overflow: hidden;
     border-radius: 10px;
-    margin: 0px 10px 0 0;
+    margin: 0px 15px 0 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
+    /* z-index: 100000000000; */
+
 
     .image {
       width: 180px;
