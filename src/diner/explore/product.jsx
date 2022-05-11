@@ -71,6 +71,7 @@ const CartItem = () => {
                           name={topping.name}
                           id={topping.name}
                           checked={true}
+                          disabled
                         />
                         <p>
                           {topping.name.length > 7
@@ -93,7 +94,7 @@ const CartItem = () => {
             <div className="real">
               <div className="one">
                 <p className="bold">1. What time of meal?</p>
-                <select name="time" defaultValue={data?.timeOfMeal}>
+                <select name="time" defaultValue={data?.timeOfMeal} disabled>
                   <option value="breakfast">breakfast</option>
                   <option value="lunch">Lunch</option>
                   <option value="dinner">Dinner</option>
@@ -112,6 +113,7 @@ const CartItem = () => {
                           value={one}
                           // checked={true}
                           defaultChecked={true}
+                          disabled
                         />
                         <label htmlFor={one}>
                           {one.length > 8 ? `${one.substr(0, 6)}...` : one}

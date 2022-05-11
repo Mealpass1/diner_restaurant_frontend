@@ -7,46 +7,50 @@ import { IoArrowBackOutline } from "react-icons/io5";
 
 import Container from "./Container";
 import axios from "../../../../../features/axios";
-import { add } from "../../../../../state/Reducers/Diner/Package"
+import { add, addToCart } from "../../../../../state/Reducers/Diner/Package"
 
 const Content = ({ pack }) => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    const goBack = () => {
-        navigate(-1);
-    };
+  const goBack = () => {
+    navigate(-1);
+  };
 
 
-    useEffect(() => {
-        axios.get(`/packageItems/items/${pack?._id}`).then((response) => {
-            dispatch(add(response.data.data));
-        })
+  useEffect(() => {
+    axios.get(`/packageItems/items/${pack?._id}`).then((response) => {
+      dispatch(add(response.data.data));
     })
+  })
 
-    return (<Div>
-        <div className="top">
-            <IoArrowBackOutline onClick={goBack} />
-        </div>
-        <div className="bottom">
-            <div className="image">
-                <img src={pack?.image} alt="package" />
-            </div>
-            <p>{pack?.name} Meal Package</p>
-            <p className="price">{pack?.price}RWF / month</p>
-        </div>
-        <div className="add">
-            <p>Add to cart</p>
-        </div>
-        <div className="container">
-            {pack?.restaurants?.map((restaurant, index) => (
-                <Container
-                    restaurant={restaurant}
-                    key={index}
-                />
-            ))}
-        </div>
-    </Div>);
+  const addCart = () => {
+    dispatch(addToCart())
+  };
+
+  return (<Div>
+    <div className="top">
+      <IoArrowBackOutline onClick={goBack} />
+    </div>
+    <div className="bottom">
+      <div className="image">
+        <img src={pack?.image} alt="package" />
+      </div>
+      <p>{pack?.name} Meal Package</p>
+      <p className="price">{pack?.price}RWF / month</p>
+    </div>
+    <div className="add" onClick={addCart}>
+      <p>Add to cart</p>
+    </div>
+    <div className="container">
+      {pack?.restaurants?.map((restaurant, index) => (
+        <Container
+          restaurant={restaurant}
+          key={index}
+        />
+      ))}
+    </div>
+  </Div>);
 }
 
 const Div = styled.div`

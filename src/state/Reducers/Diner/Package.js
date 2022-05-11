@@ -1,4 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
+
+import axios from "../../../features/axios"
 
 const packageSlice = createSlice({
   name: "Package",
@@ -11,11 +13,18 @@ const packageSlice = createSlice({
     },
     removeDish: (state, action) => {
       const newDishes = state.dishes.filter(d => d._id !== action.payload)
-      state.dishes = newDishes
+      state.dishes = newDishes;
+    },
+    addToCart: (state, action) => {
+      console.log(current(state));
     }
   },
 });
 
-export const { add, removeDish } = packageSlice.actions;
+const addToCartApi = (dishes) => {
+
+}
+
+export const { add, removeDish, addToCart } = packageSlice.actions;
 
 export default packageSlice.reducer;
