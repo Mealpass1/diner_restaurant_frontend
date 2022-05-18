@@ -143,6 +143,7 @@ const Container = styled.div`
 
         p {
           font-size: 1.2em;
+          font-weight: 700;
         }
 
         button {
