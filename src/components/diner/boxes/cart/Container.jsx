@@ -11,7 +11,7 @@ const Container = (props) => {
   return (
     <Content>
       {cart?.map((item, index) => (
-        <div key={index}>
+        <React.Fragment key={index}>
           {item.type === "dish" ? (
             <>
               <Dish item={item} delete={props.delete} reflesh={props.reflesh} />
@@ -25,7 +25,7 @@ const Container = (props) => {
               />
             </>
           )}
-        </div>
+        </React.Fragment>
       ))}
     </Content>
   );
@@ -35,15 +35,12 @@ const Content = styled.div`
   width: 100%;
   height: auto;
   padding: 10px 0px;
-
-  div {
-    width: 98%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-  }
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 `;
 
 export default Container;

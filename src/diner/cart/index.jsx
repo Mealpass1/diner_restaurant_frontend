@@ -17,12 +17,14 @@ import Top from "../../components/diner/top/Cart";
 import Layout from "../../components/diner/Layout";
 import Container from "../../components/diner/boxes/cart/Container";
 import Success from "../../components/diner/portals/Cart";
+import Checkout from "../../components/diner/portals/cart/Checkout";
 
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [token, setToken] = useState("");
   const [show, setShow] = useState(false);
+  const [checkout, setCheckout] = useState(false);
   const total = useSelector((state) => state.diner.cart.total) || 0;
   const fee = useSelector((state) => state.diner.cart.fee) || 0;
   const [data, setData] = useState([]);
@@ -46,8 +48,9 @@ const Cart = () => {
     setReflesh(!reflesh);
   };
 
-  const checkout = () => {
-    navigate("/diner/cart/payment");
+  const showCheckout = () => {
+    // navigate("/diner/cart/payment");
+    setCheckout(!checkout);
   };
 
   const handleDelete = async (id) => {
@@ -78,6 +81,7 @@ const Cart = () => {
   return (
     <Layout>
       <Top items={data?.length} />
+      {checkout ? <Checkout cancel={showCheckout} /> : <></>}
       {show === true ? <Success cancel={showAdd} /> : <></>}
       <Content>
         <Container delete={handleDelete} reflesh={refleshCart} />
@@ -87,12 +91,12 @@ const Cart = () => {
               <tbody>
                 <tr>
                   <td>Total Meal Cost</td>
-                  <td className="money">{total} RWf</td>
+                  <td className="money">{total} RWF</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div className="checkout" onClick={checkout}>
+          <div className="checkout" onClick={showCheckout}>
             <IoBagCheckOutline />
             <p>proceed to Payment</p>
           </div>
@@ -105,7 +109,7 @@ const Cart = () => {
 const Content = styled.div`
   .summary {
     width: 100%;
-    height: 150px;
+    height: 120px;
     margin: auto;
     position: sticky;
     bottom: 0;
@@ -113,7 +117,7 @@ const Content = styled.div`
 
     .top {
       width: 95%;
-      height: 45%;
+      height: 55%;
       margin: auto;
       border-radius: 10px;
       display: flex;
@@ -142,7 +146,7 @@ const Content = styled.div`
 
     .checkout {
       width: 95%;
-      height: 30%;
+      height: 35%;
       margin: auto;
       margin: 10px;
       display: flex;
