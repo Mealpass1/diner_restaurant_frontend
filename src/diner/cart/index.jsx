@@ -105,7 +105,7 @@ const Cart = () => {
 const Content = styled.div`
   .summary {
     width: 100%;
-    height: 100px;
+    height: 150px;
     margin: auto;
     position: sticky;
     bottom: 0;
@@ -142,7 +142,7 @@ const Content = styled.div`
 
     .checkout {
       width: 95%;
-      height: 45%;
+      height: 30%;
       margin: auto;
       margin: 10px;
       display: flex;
