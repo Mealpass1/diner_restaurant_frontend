@@ -142,7 +142,7 @@ const Container = styled.div`
         justify-content: space-between;
 
         p {
-          font-size: 1.2em;
+          font-size: 1.1em;
           font-weight: 700;
         }
 
