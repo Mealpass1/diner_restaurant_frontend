@@ -10,9 +10,10 @@ const Basket = () => {
   const query = useParams();
 
   const { data } = useQuery(`${query.package}`, async () => {
-    return await axios.get(`/package/${query.package}`).then((response) => response.data.data);
+    return await axios
+      .get(`/package/${query.package}`)
+      .then((response) => response.data.data);
   });
-
 
   return (
     <Layout>
@@ -20,6 +21,5 @@ const Basket = () => {
     </Layout>
   );
 };
-
 
 export default Basket;
