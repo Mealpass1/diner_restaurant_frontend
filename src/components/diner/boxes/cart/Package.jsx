@@ -13,56 +13,6 @@ import axios from "../../../../features/axios";
 const Box = (props) => {
   const router = useNavigate();
   const [token, setToken] = useState("");
-  const [amount, setAmount] = useState(props.item.mealServing);
-
-  const updateQuantity = (amount) => {
-    axios
-      .put(
-        `/cart/updatemealserving/${props.item._id}`,
-        {
-          mealserving: amount,
-        },
-        {
-          headers: {
-            auth: `${token}`,
-          },
-        }
-      )
-      .then((rresponse) => {
-        // window.location.reload(false);
-        props.reflesh();
-        if (rresponse.data.status == "error") {
-          toast.error("Unable to update", {
-            toastId: "customId",
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 2000,
-          });
-        } else {
-          toast.success("Cart updated", {
-            toastId: "customId",
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 2000,
-          });
-        }
-        console.log(rresponse);
-      });
-  };
-
-  const increaseAmount = () => {
-    setAmount(amount + 1);
-    clearTimeout();
-    setTimeout(() => {
-      updateQuantity(amount + 1);
-    }, 2000);
-  };
-
-  const decreaseAmount = () => {
-    setAmount(amount - 1);
-    clearTimeout();
-    setTimeout(() => {
-      updateQuantity(amount - 1);
-    }, 2000);
-  };
 
   const variants = {
     initial: {
@@ -89,6 +39,8 @@ const Box = (props) => {
     router(`/diner/cart/${props.item._id}`);
   };
 
+  //   console.log(props.item);
+
   return (
     <Container>
       <motion.div
@@ -100,42 +52,30 @@ const Box = (props) => {
       >
         <div className="left">
           <div className="image">
-            <img src={props.item?.dish?.image} alt={props.item?.dish?.name} />
+            <img
+              src={props.item?.package?.image}
+              alt={props.item?.package?.name}
+            />
           </div>
           <p>
             <span>From: </span>
-            {props?.item?.restaurant?.businessName}
+            MealPass
           </p>
         </div>
         <div className="about">
           <div className="title">
-            <p>{props.item.dish.name}</p>
+            <p>{props?.item?.package?.name} package</p>
             <div className="p1">
-              <p>{props.item.dish.price} RWF</p>
-              <p className="discount">({props?.item?.dish?.discount}%Off)</p>
+              <p>{props?.item?.subTotal} RWF</p>
             </div>
           </div>
           <div className="serving">
-            <div className="para">
-              <p>Meal Serving</p>
-              <p>For a week</p>
-            </div>
-            <div className="amount">
-              <div className="plus" onClick={increaseAmount}>
-                <AiOutlinePlus />
-              </div>
-              <p>{amount}</p>
-              <div className="minus" onClick={decreaseAmount}>
-                <BiMinus />
-              </div>
-            </div>
+            <p>Meal Serving</p>
+            <p>For a week</p>
           </div>
         </div>
         <div className="right">
           <div className="settings">
-            <div className="edit" onClick={goToDish}>
-              <FiEdit />
-            </div>
             <div
               className="delete"
               onClick={() => props.delete(props.item._id)}
@@ -145,7 +85,7 @@ const Box = (props) => {
           </div>
           <div className="total">
             <p>Sub-Total</p>
-            <p>{props.item.subTotal} RWF</p>
+            <p>{props?.item?.subTotal} RWF</p>
           </div>
         </div>
       </motion.div>
@@ -234,60 +174,17 @@ const Container = styled.div`
       }
 
       .serving {
-        width: 100%;
+        width: auto;
         height: 60px;
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
 
-        .amount {
-          width: 50%;
-          height: 100%;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-around;
-
-          .plus,
-          .minus {
-            width: 30%;
-            height: 50%;
-            border-radius: 50%;
-            box-shadow: 0px 0.5px 3px rgba(0, 0, 0, 0.25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2em;
-            background: var(--grayish);
-          }
-        }
-
-        .para {
-          p:nth-child(2) {
-            font-weight: bold;
-          }
-        }
-      }
-
-      .delivery {
-        width: 100%;
-        height: 30px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-
-        .p2 {
-          width: 50%;
-          height: 100%;
-          font-weight: bold;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+        p:nth-child(2) {
+          text-align: left;
+          font-weight: 700;
         }
       }
     }
+
     .right {
       width: 20%;
       height: 100%;

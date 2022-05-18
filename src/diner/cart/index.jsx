@@ -105,7 +105,7 @@ const Cart = () => {
 const Content = styled.div`
   .summary {
     width: 100%;
-    height: 180px;
+    height: 100px;
     margin: auto;
     position: sticky;
     bottom: 0;
@@ -113,8 +113,8 @@ const Content = styled.div`
 
     .top {
       width: 95%;
+      height: 45%;
       margin: auto;
-      height: 60%;
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -142,8 +142,8 @@ const Content = styled.div`
 
     .checkout {
       width: 95%;
+      height: 45%;
       margin: auto;
-      height: 25%;
       margin: 10px;
       display: flex;
       flex-direction: row;
@@ -151,6 +151,7 @@ const Content = styled.div`
       justify-content: center;
       font-size: 1.1em;
       font-weight: bold;
+      border-radius: 5px;
       background: var(--gray);
 
       img {
