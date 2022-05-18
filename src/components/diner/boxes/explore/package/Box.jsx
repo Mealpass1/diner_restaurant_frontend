@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 
 import Cross from "./Cross";
-import { removeDish } from "../../../../../state/Reducers/Diner/Package"
+import { removeDish } from "../../../../../state/Reducers/Diner/Package";
 
 const Box = ({ dish }) => {
   const router = useNavigate();
@@ -15,7 +15,6 @@ const Box = ({ dish }) => {
   const goToProduct = () => {
     router(`${location.pathname}/${dish._id}`);
   };
-
 
   const variants = {
     initial: {
@@ -27,15 +26,14 @@ const Box = ({ dish }) => {
       opacity: 1,
       transition: {
         duration: 0.5,
-        delay: 0.5,
         staggerChildren: 1,
       },
     },
   };
 
   const handleRemove = () => {
-    dispatch(removeDish(dish._id))
-  }
+    dispatch(removeDish(dish._id));
+  };
 
   return (
     <Container>
@@ -75,7 +73,6 @@ const Container = styled.div`
     align-items: flex-start;
     justify-content: space-between;
     /* z-index: 100000000000; */
-
 
     .image {
       width: 180px;

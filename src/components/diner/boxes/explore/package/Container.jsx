@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 import Box from "./Box";
 
 const Container = ({ restaurant }) => {
-  const data = useSelector((state) => state.diner.package.dishes?.filter(d => d.restaurant === restaurant.id))
+  const data = useSelector((state) =>
+    state.diner.package.dishes?.filter((d) => d.restaurant === restaurant.id)
+  );
 
   return (
     <Content>

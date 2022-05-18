@@ -1,30 +1,39 @@
-import { createSlice, current } from "@reduxjs/toolkit";
-
-import axios from "../../../features/axios"
+import { createSlice } from "@reduxjs/toolkit";
 
 const packageSlice = createSlice({
   name: "Package",
   initialState: {
     dishes: [],
+    subTotal: 0,
+    mealServing: 0,
   },
   reducers: {
     add: (state, action) => {
+      let subTotal = 0;
+      let mealServing = 0;
+      action?.payload?.forEach((element) => {
+        subTotal += element.subTotal;
+        mealServing += element.mealServing;
+      });
       state.dishes = action.payload;
+      state.subTotal = subTotal;
+      state.mealServing = mealServing;
     },
     removeDish: (state, action) => {
-      const newDishes = state.dishes.filter(d => d._id !== action.payload)
+      let subTotal = 0;
+      let mealServing = 0;
+      const newDishes = state.dishes.filter((d) => d._id !== action.payload);
+      newDishes.forEach((element) => {
+        subTotal += element.subTotal;
+        mealServing += element.mealServing;
+      });
       state.dishes = newDishes;
+      state.subTotal = subTotal;
+      state.mealServing = mealServing;
     },
-    addToCart: (state, action) => {
-      console.log(current(state));
-    }
   },
 });
-s
-const addToCartApi = (dishes) => {
-  axios.post("/")
-}
 
-export const { add, removeDish, addToCart } = packageSlice.actions;
+export const { add, removeDish } = packageSlice.actions;
 
 export default packageSlice.reducer;

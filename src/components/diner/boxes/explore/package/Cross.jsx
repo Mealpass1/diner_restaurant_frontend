@@ -19,7 +19,8 @@ const Container = styled.div`
     justify-content: center;
     top: -7px;
     right: 5px;
-    background: var(--red);
+    font-size: 10px;
+    background: var(--gray);
     z-index: 1000000;
 `
 
