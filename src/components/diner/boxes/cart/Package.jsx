@@ -4,9 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 
-import { AiOutlinePlus } from "react-icons/ai";
-import { BiMinus, BiTrash } from "react-icons/bi";
-import { FiEdit } from "react-icons/fi";
+import { BiTrash } from "react-icons/bi";
 
 import axios from "../../../../features/axios";
 
@@ -35,11 +33,22 @@ const Box = (props) => {
     setToken(token);
   });
 
-  const goToDish = () => {
-    router(`/diner/cart/${props.item._id}`);
+  const deletePackage = () => {
+    axios
+      .delete(`/cart/deletepackage/${props?.item?._id}`, {
+        headers: { auth: `${token}` },
+      })
+      .then((response) => {
+        if (response.data.status === "success") {
+          toast.success("Package removed from cart", {
+            toastId: "customId",
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000,
+          });
+          props.reflesh();
+        }
+      });
   };
-
-  //   console.log(props.item);
 
   return (
     <Container>
@@ -76,10 +85,7 @@ const Box = (props) => {
         </div>
         <div className="right">
           <div className="settings">
-            <div
-              className="delete"
-              onClick={() => props.delete(props.item._id)}
-            >
+            <div className="delete" onClick={deletePackage}>
               <BiTrash />
             </div>
           </div>
