@@ -59,6 +59,11 @@ const Container = styled.div`
     .space {
       width: 15%;
     }
+
+    p {
+      font-size: 1.3em;
+      font-weight: 700;
+    }
   }
 `;
 

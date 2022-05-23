@@ -2,6 +2,7 @@ import React from "react";
 import ReactDom from "react-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 import { AiOutlinePlus } from "react-icons/ai";
 
@@ -57,7 +58,7 @@ const Pickup = ({ cancel }) => {
             Total Packaging Cost (For the week) = 2,500 RWF
           </p>
           <button type="button" className="add">
-            Add
+            <Link to="/diner/cart/payment">Add</Link>
           </button>
         </div>
         <div className="pickup"></div>
@@ -165,6 +166,11 @@ const Container = styled.div`
         border: none;
         border-radius: 5px;
         background: var(--gray);
+
+        a {
+          text-decoration: none;
+          color: var(--black);
+        }
       }
     }
   }
