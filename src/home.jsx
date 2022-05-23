@@ -20,7 +20,7 @@ const Home = () => {
         <p className="title">reimaging your restaurant experience</p>
         <p>
           Customise your whole meal menu for a whole week, month or just a day
-          and day upfront to gain amazing offers
+          and pay upfront to gain amazing offers
         </p>
       </div>
       <p className="title">Continue as:</p>
