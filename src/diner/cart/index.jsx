@@ -16,15 +16,15 @@ import { add, getTotal, getFee } from "../../state/Reducers/Diner/Cart";
 import Top from "../../components/diner/top/Cart";
 import Layout from "../../components/diner/Layout";
 import Container from "../../components/diner/boxes/cart/Container";
-import Success from "../../components/diner/portals/Cart";
-import Checkout from "../../components/diner/portals/cart/Checkout";
+import Delivery from "../../components/diner/portals/cart/Delivery";
+import Pickup from "../../components/diner/portals/cart/Pickup";
 
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [token, setToken] = useState("");
-  const [show, setShow] = useState(false);
-  const [checkout, setCheckout] = useState(false);
+  const [delivery, setDelivery] = useState(false);
+  const [pickup, setPickup] = useState(false);
   const total = useSelector((state) => state.diner.cart.total) || 0;
   const fee = useSelector((state) => state.diner.cart.fee) || 0;
   const [data, setData] = useState([]);
@@ -48,9 +48,17 @@ const Cart = () => {
     setReflesh(!reflesh);
   };
 
-  const showCheckout = () => {
+  const showDelivery = () => {
     // navigate("/diner/cart/payment");
-    setCheckout(!checkout);
+    if (delivery) {
+      setPickup(!pickup);
+    }
+    setDelivery(!delivery);
+  };
+
+  const showPickup = () => {
+    // navigate("/diner/cart/payment");
+    setPickup(!pickup);
   };
 
   const handleDelete = async (id) => {
@@ -74,15 +82,11 @@ const Cart = () => {
       });
   };
 
-  const showAdd = () => {
-    setShow(!show);
-  };
-
   return (
     <Layout>
       <Top items={data?.length} />
-      {checkout ? <Checkout cancel={showCheckout} /> : <></>}
-      {show === true ? <Success cancel={showAdd} /> : <></>}
+      {delivery ? <Delivery cancel={showDelivery} /> : <></>}
+      {pickup ? <Pickup cancel={showPickup} /> : <></>}
       <Content>
         <Container delete={handleDelete} reflesh={refleshCart} />
         <div className="summary">
@@ -96,7 +100,7 @@ const Cart = () => {
               </tbody>
             </table>
           </div>
-          <div className="checkout" onClick={showCheckout}>
+          <div className="checkout" onClick={showDelivery}>
             <IoBagCheckOutline />
             <p>proceed to Payment</p>
           </div>

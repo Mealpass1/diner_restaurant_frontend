@@ -3,7 +3,7 @@ import ReactDom from "react-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { MdDone } from "react-icons/md";
+import { AiOutlinePlus } from "react-icons/ai";
 
 const Checkout = ({ cancel }) => {
   const variants = {
@@ -28,7 +28,9 @@ const Checkout = ({ cancel }) => {
       >
         <div className="delivery">
           <div className="top">
-            <p>Delivery address</p>
+            <p>
+              <AiOutlinePlus /> Add Delivery address
+            </p>
             <button type="button" onClick={() => cancel()}>
               Cancel
             </button>
@@ -172,6 +174,10 @@ const Container = styled.div`
             border: none;
             outline: none;
             border-bottom: 1px solid var(--opacity);
+          }
+
+          label {
+            font-size: 0.9em;
           }
         }
       }
